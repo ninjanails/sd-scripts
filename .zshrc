@@ -1,5 +1,7 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/sdavies/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
+
+export EDITOR="sublime"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -45,29 +47,44 @@ ZSH_THEME="robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# User configuration
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.4/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
-export ZSH=~/.oh-my-zsh
 
-# Completion
-autoload -U compinit
-compinit
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
-export EDITOR="sublime"
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
 
 # Docker config
 eval "$(boot2docker shellinit)"
@@ -75,23 +92,12 @@ eval "$(boot2docker shellinit)"
 # rbenv config
 eval "$(rbenv init -)"
 
-# Virtualenvwrapper
-export WORKON_HOME=~/venvs
-source /usr/local/bin/virtualenvwrapper.sh
-
-# Create a virtual environment.
-function mkvenv3 {
-    defaultname=`basename $PWD`
-    name=${1:-$defaultname}
-    mkvirtualenv $name -a `pwd` -p `which python3`
-}
-function mkvenv2 {
-    defaultname=`basename $PWD`
-    name=${1:-$defaultname}
-    mkvirtualenv $name -a `pwd` -p `which python2`
-}
+source $HOME/.python
 
 # NVM
 # export PATH="$NVM_DIR:$PATH"
 export NVM_DIR=~/.nvm
 . $(brew --prefix nvm)/nvm.sh
+
+alias dog='pygmentize -g'
+alias dog-num='pygmentize -g -O style=colorful,linenos=1'
