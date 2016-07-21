@@ -1,0 +1,26 @@
+[filter "lfs"]
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
+[user]
+    name = Seren Davies
+    email = sd@andydavies.net
+[core]
+    excludesfile = ~/.gitignore
+    whitespace = blank-at-eol,cr-at-eol,tabwidth=4,tab-in-indent,space-before-tab
+    editor = sublime -w
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+    ui = true
+
+[push]
+    default = simple
+
+[status]
+    relativePaths = true
+
+[merge]
+    conflictstyle = diff3
