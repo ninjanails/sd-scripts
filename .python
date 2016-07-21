@@ -1,0 +1,78 @@
+# Copied from https://github.com/henrahmagix/dotfiles/blob/2842b11126b1d5a38aec9e062390f989698faa05/python
+
+# Python-fu
+
+# Requirements:
+# - pip: `easy_install pip`
+# - virtualenvwrapper: `pip install virtualenvwrapper`
+# - autoenv: `brew install autoenv`
+
+# Usage:
+# - `mkvenv2` for Python2 projects
+# - `mkvenv3` for Python3 projects
+# - `mkvenv` to use the system Python version
+
+# virtualenvwrapper
+export WORKON_HOME=$HOME/venvs
+export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper_lazy.sh
+
+# autoenv
+source $(brew --prefix autoenv)/activate.sh
+
+# pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+# make a python virtualenv with extra options
+function mkvenv {
+    name=""
+    if [ "${1}" == "" ]; then
+        name=`basename $PWD`
+        echo "Name not specified, using current dir: $name"
+    else
+        name=${1}
+    fi
+
+    python=""
+    if [ "${2}" == "" ]; then
+        python=`which python`
+        echo "Python version not specified, using default: `python --version` at $python"
+    else
+        python=${2}
+    fi
+
+    mkvirtualenv $name -a `pwd` -p $python
+
+    # make a .env in the current directory for autoenv magic
+    echo "workon $name" > .env
+
+    # fix libmemcached usage by pip under OS X: El Capitan
+    echo "export LIBMEMCACHED=`brew --prefix`" >> .env
+
+    # symlink the venv to the current dir
+    ln -s "$WORKON_HOME/$name" .venv
+    echo "Symlinked $WORKON_HOME/$name to ./.venv"
+
+    # activate the autoenv
+    cd .
+
+    # make sure the environment is activated
+    workon $name
+
+    # if memcached isn't installed, say that it should
+    brew --prefix memcached >/dev/null 2>&1
+    if [ $? -eq 1 ]; then
+        echo "libmemcached is required: brew install memcached"
+    fi
+}
+
+# Create a virtual environment.
+function mkvenv3 {
+    mkvenv ${1:-""} `which python3`
+}
+function mkvenv34 {
+    mkvenv ${1:-""} `which python3.4`
+}
+function mkvenv2 {
+    mkvenv ${1:-""} `which python2`
+}
