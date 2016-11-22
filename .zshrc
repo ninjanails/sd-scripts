@@ -87,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # Docker config
-eval "$(boot2docker shellinit)"
+# eval "$(boot2docker shellinit)"
 
 # rbenv config
 eval "$(rbenv init -)"
